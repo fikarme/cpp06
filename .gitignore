@@ -1,0 +1,7 @@
+*.o
+*.out
+lain
+.DS_Store
+.vscode
+lain.dSYM
+Obj/

@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include <cerrno>
 #include <cmath>
+#include <iomanip>
+#include <sstream>
 
 using std::string;
 using std::cout;

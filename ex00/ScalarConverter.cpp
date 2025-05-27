@@ -5,7 +5,120 @@ ScalarConverter::ScalarConverter(const ScalarConverter& other) { (void)other; }
 ScalarConverter& ScalarConverter::operator=(const ScalarConverter& other) { (void)other; return *this; }
 ScalarConverter::~ScalarConverter() {}
 
-// ...existing detectType, isSpecialFloat, isSpecialDouble methods...
+ScalarConverter::Type ScalarConverter::detectType(const string& literal)
+{
+    if (literal.empty())
+        return INVALID;
+
+    // Check for char literal
+    if (literal.length() == 3 && literal[0] == '\'' && literal[2] == '\'')
+        return CHAR;
+
+    // Check for special float values
+    if (isSpecialFloat(literal))
+        return FLOAT;
+
+    // Check for special double values
+    if (isSpecialDouble(literal))
+        return DOUBLE;
+
+    // Check for float (ends with 'f')
+    if (literal.length() > 1 && literal[literal.length() - 1] == 'f')
+    {
+        string without_f = literal.substr(0, literal.length() - 1);
+        char* endptr;
+        errno = 0;
+        strtod(without_f.c_str(), &endptr);
+        if (*endptr == '\0' && errno == 0)
+            return FLOAT;
+        return INVALID;
+    }
+
+    // Check if it contains a decimal point
+    if (literal.find('.') != string::npos)
+    {
+        char* endptr;
+        errno = 0;
+        strtod(literal.c_str(), &endptr);
+        if (*endptr == '\0' && errno == 0)
+            return DOUBLE;
+        return INVALID;
+    }
+
+    // Check for int
+    char* endptr;
+    errno = 0;
+    long value = strtol(literal.c_str(), &endptr, 10);
+    
+    if (*endptr == '\0' && errno == 0 && value >= numeric_limits<int>::min() && value <= numeric_limits<int>::max())
+        return INT;
+
+    return INVALID;
+}
+
+bool ScalarConverter::isSpecialFloat(const string& literal)
+{
+    return (literal == "nanf" || literal == "+inff" || literal == "-inff" || literal == "inff");
+}
+
+bool ScalarConverter::isSpecialDouble(const string& literal)
+{
+    return (literal == "nan" || literal == "+inf" || literal == "-inf" || literal == "inf");
+}
+
+void ScalarConverter::convertFromChar(char c)
+{
+    cout << "char: '" << c << "'" << endl;
+    cout << "int: " << static_cast<int>(c) << endl;
+    cout << "float: " << static_cast<float>(c) << ".0f" << endl;
+    cout << "double: " << static_cast<double>(c) << ".0" << endl;
+}
+
+void ScalarConverter::convert(const string& literal)
+{
+    Type type = detectType(literal);
+
+    switch (type)
+    {
+        case CHAR:
+            convertFromChar(literal[1]);
+            break;
+        case INT:
+            convertFromInt(static_cast<int>(strtol(literal.c_str(), NULL, 10)));
+            break;
+        case FLOAT:
+            if (isSpecialFloat(literal))
+            {
+                if (literal == "nanf")
+                    convertFromFloat(numeric_limits<float>::quiet_NaN());
+                else if (literal == "+inff" || literal == "inff")
+                    convertFromFloat(numeric_limits<float>::infinity());
+                else
+                    convertFromFloat(-numeric_limits<float>::infinity());
+            }
+            else
+            {
+                string without_f = literal.substr(0, literal.length() - 1);
+                convertFromFloat(static_cast<float>(strtod(without_f.c_str(), NULL)));
+            }
+            break;
+        case DOUBLE:
+            if (isSpecialDouble(literal))
+            {
+                if (literal == "nan")
+                    convertFromDouble(numeric_limits<double>::quiet_NaN());
+                else if (literal == "+inf" || literal == "inf")
+                    convertFromDouble(numeric_limits<double>::infinity());
+                else
+                    convertFromDouble(-numeric_limits<double>::infinity());
+            }
+            else
+                convertFromDouble(strtod(literal.c_str(), NULL));
+            break;
+        default:
+            cout << "Invalid input" << endl;
+    }
+}
 
 void ScalarConverter::convertFromInt(int value) {
     // char conversion
@@ -68,20 +181,20 @@ void ScalarConverter::convertFromFloat(float value) {
     else
         cout << "int: impossible" << endl;
 
-    // Format float output
+    // Format float output - check if it's a whole number
     cout << "float: ";
-    if (value == static_cast<int>(value)) {
+    if (value == static_cast<int>(value) && !isinf(value) && !isnan(value)) {
         cout << static_cast<int>(value) << ".0f" << endl;
     } else {
-        cout << value << "f" << endl;
+        cout << std::fixed << std::setprecision(1) << value << "f" << endl;
     }
     
     // Format double output
     cout << "double: ";
-    if (value == static_cast<int>(value)) {
+    if (value == static_cast<int>(value) && !isinf(value) && !isnan(value)) {
         cout << static_cast<int>(value) << ".0" << endl;
     } else {
-        cout << static_cast<double>(value) << endl;
+        cout << std::fixed << std::setprecision(1) << static_cast<double>(value) << endl;
     }
 }
 

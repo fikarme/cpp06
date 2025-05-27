@@ -186,7 +186,7 @@ void ScalarConverter::convertFromFloat(float value) {
     if (value == static_cast<int>(value) && !isinf(value) && !isnan(value)) {
         cout << static_cast<int>(value) << ".0f" << endl;
     } else {
-        cout << std::fixed << std::setprecision(1) << value << "f" << endl;
+        cout << value << "f" << endl;
     }
     
     // Format double output
@@ -194,7 +194,7 @@ void ScalarConverter::convertFromFloat(float value) {
     if (value == static_cast<int>(value) && !isinf(value) && !isnan(value)) {
         cout << static_cast<int>(value) << ".0" << endl;
     } else {
-        cout << std::fixed << std::setprecision(1) << static_cast<double>(value) << endl;
+        cout << static_cast<double>(value) << endl;
     }
 }
 

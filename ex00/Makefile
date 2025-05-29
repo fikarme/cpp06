@@ -12,12 +12,9 @@ $(NAME): $(SRCS)
 clean:
 	@echo "no o files to clean"
 
-fclean: clean
+fclean: 
 	@$(RM) $(NAME)
 
 re: fclean all
 
-e: fclean $(NAME)
-	@./$(NAME)
-
-.PHONY: all clean fclean re e
+.PHONY: all clean fclean re

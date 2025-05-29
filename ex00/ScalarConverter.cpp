@@ -5,8 +5,7 @@ ScalarConverter::ScalarConverter(const ScalarConverter& other) { (void)other; }
 ScalarConverter& ScalarConverter::operator=(const ScalarConverter& other) { (void)other; return *this; }
 ScalarConverter::~ScalarConverter() {}
 
-ScalarConverter::Type ScalarConverter::detectType(const string& literal)
-{
+ScalarConverter::Type ScalarConverter::detectType(const string& literal) {
     if (literal.empty())
         return INVALID;
 
@@ -23,8 +22,7 @@ ScalarConverter::Type ScalarConverter::detectType(const string& literal)
         return DOUBLE;
 
     // Check for float (ends with 'f')
-    if (literal.length() > 1 && literal[literal.length() - 1] == 'f')
-    {
+    if (literal.length() > 1 && literal[literal.length() - 1] == 'f') {
         string without_f = literal.substr(0, literal.length() - 1);
         char* endptr;
         errno = 0;
@@ -35,8 +33,7 @@ ScalarConverter::Type ScalarConverter::detectType(const string& literal)
     }
 
     // Check if it contains a decimal point
-    if (literal.find('.') != string::npos)
-    {
+    if (literal.find('.') != string::npos) {
         char* endptr;
         errno = 0;
         strtod(literal.c_str(), &endptr);
@@ -56,26 +53,22 @@ ScalarConverter::Type ScalarConverter::detectType(const string& literal)
     return INVALID;
 }
 
-bool ScalarConverter::isSpecialFloat(const string& literal)
-{
+bool ScalarConverter::isSpecialFloat(const string& literal) {
     return (literal == "nanf" || literal == "+inff" || literal == "-inff" || literal == "inff");
 }
 
-bool ScalarConverter::isSpecialDouble(const string& literal)
-{
+bool ScalarConverter::isSpecialDouble(const string& literal) {
     return (literal == "nan" || literal == "+inf" || literal == "-inf" || literal == "inf");
 }
 
-void ScalarConverter::convertFromChar(char c)
-{
+void ScalarConverter::convertFromChar(char c) {
     cout << "char: '" << c << "'" << endl;
     cout << "int: " << static_cast<int>(c) << endl;
     cout << "float: " << static_cast<float>(c) << ".0f" << endl;
     cout << "double: " << static_cast<double>(c) << ".0" << endl;
 }
 
-void ScalarConverter::convert(const string& literal)
-{
+void ScalarConverter::convert(const string& literal) {
     Type type = detectType(literal);
 
     switch (type)

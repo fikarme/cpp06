@@ -1,4 +1,4 @@
-NAME    	= lain
+NAME    	= convert
 CPP     	= c++
 CPPFLAGS	= -std=c++98 -Wall -Wextra -Werror
 RM			= rm -rf

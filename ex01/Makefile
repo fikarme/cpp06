@@ -1,4 +1,4 @@
-NAME    	= convert
+NAME    	= serializer
 CPP     	= c++
 CPPFLAGS	= -std=c++98 -Wall -Wextra -Werror
 RM			= rm -rf

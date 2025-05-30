@@ -4,7 +4,6 @@
 - use C++98 standard.
 - use these flags: -Wall -Wextra -Werror
 
-
 # ex02: Identify real type
 
 Forbidden functions: std::typeinfo

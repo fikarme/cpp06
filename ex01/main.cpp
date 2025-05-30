@@ -1,24 +1,46 @@
-#include "ScalarConverter.hpp"
+#include "Serializer.hpp"
+#include "Data.hpp"
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+inline void y() {
+    cout << "\033[1;33m ---------\033[0m" << endl;
+}
 
 int main() {
+    // Create a Data object
+    Data* original = new Data(42, "Test Data", 3.14);
 
-    int x = 5;
-    int y = 2;
-    double z;
+    cout << "Original Data object:" <<
+    endl << "Address: " << original <<
+    endl << "ID: " << original->id <<
+    endl << "Name: " << original->name <<
+    endl << "Value: " << original->value << endl;
+    y();
 
-    z = static_cast<double>(x) / y;
-    cout << "static_cast<double>(x) / y -> " << z << endl;
+    // Serialize the pointer
+    uintptr_t serialized = Serializer::serialize(original);
+    cout << "Serialized value: " << serialized << endl;
+    y();
 
-    z = x / static_cast<double>(y);
-    cout << "x / static_cast<double>(y) -> " << z << endl;
+    // Deserialize back to pointer
+    Data* deserialized = Serializer::deserialize(serialized);
 
-    z = static_cast<double>(x) / static_cast<double>(y);
-    cout << "static_cast<double>(x) / static_cast<double>(y) -> " << z << endl;
+    cout << "Deserialized Data object:" <<
+    endl << "Address: " << deserialized <<
+    endl << "ID: " << deserialized->id <<
+    endl << "Name: " << deserialized->name <<
+    endl << "Value: " << deserialized->value << endl;
+    y();
 
-    z = x / y;
-    cout << "x / y -> " << z << endl;
-
-    z = static_cast<double>(x / y);
-    cout << "static_cast<double>(x / y) -> " << z << endl;
-
+    if (original == deserialized)
+        cout << "✓ Success: Original and deserialized pointers are equal!" << endl;
+    else
+        cout << "✗ Error: Original and deserialized pointers are different!" << endl;
+    
+    delete original;
+    
+    return 0;
 }

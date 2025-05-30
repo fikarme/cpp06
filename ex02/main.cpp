@@ -4,9 +4,7 @@
 using std::cout;
 using std::endl;
 
-inline void y() {
-    cout << "\033[1;33m ---------\033[0m" << endl;
-}
+inline void y() {cout << "\033[1;33m ---------\033[0m" << endl;}
 
 int main() {
     cout << "Testing type identification with pointers:" << endl;

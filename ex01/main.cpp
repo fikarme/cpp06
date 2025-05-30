@@ -34,10 +34,10 @@ int main() {
     y();
 
     if (original == deserialized)
-        cout << "✓ Success: Original and deserialized pointers are equal!" << endl;
+        cout << "\033[1;32m ✓ Success: Original and deserialized pointers are equal!\033[0m" << endl;
     else
-        cout << "✗ Error: Original and deserialized pointers are different!" << endl;
-    
+        cout << "\033[1;31m ✗ Error: Original and deserialized pointers are different!\033[0m" << endl;
+
     delete original;
     
     return 0;

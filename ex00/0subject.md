@@ -3,6 +3,7 @@
 - use Orthodox Canonical Form
 - use C++98 standard.
 - use these flags: -Wall -Wextra -Werror
+- don't use braces for single-line if statements
 
 # ex00: Conversion of scalar types**
 Allowed functions: Any function to convert from a string to an int, a float, or a double. 

@@ -3,6 +3,7 @@
 - use Orthodox Canonical Form
 - use C++98 standard.
 - use these flags: -Wall -Wextra -Werror
+- don't use braces for single-line if statements
 
 # ex01: Serialization**
 Implement a class Serializer, which will not be initializable by the user in any way, with the following static methods:

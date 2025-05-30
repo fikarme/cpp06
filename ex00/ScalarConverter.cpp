@@ -1,10 +1,5 @@
 #include "ScalarConverter.hpp"
 
-ScalarConverter::ScalarConverter() {}
-ScalarConverter::ScalarConverter(const ScalarConverter& other) { (void)other; }
-ScalarConverter& ScalarConverter::operator=(const ScalarConverter& other) { (void)other; return *this; }
-ScalarConverter::~ScalarConverter() {}
-
 ScalarConverter::Type ScalarConverter::detectType(const string& literal) {
     if (literal.empty())
         return INVALID;
@@ -50,23 +45,6 @@ ScalarConverter::Type ScalarConverter::detectType(const string& literal) {
     return INVALID;
 }
 
-bool ScalarConverter::isSpecialFloat(const string& literal) {
-    return (literal == "nanf" || literal == "+inff"
-        || literal == "-inff" || literal == "inff");
-}
-
-bool ScalarConverter::isSpecialDouble(const string& literal) {
-    return (literal == "nan" || literal == "+inf"
-        || literal == "-inf" || literal == "inf");
-}
-
-void ScalarConverter::convertFromChar(char c) {
-    cout << "char: '"   << c << "'" <<
-    endl << "int: "     << static_cast<int>(c) <<
-    endl << "float: "   << static_cast<float>(c) << ".0f" <<
-    endl << "double: "  << static_cast<double>(c) << ".0" << endl;
-}
-
 void ScalarConverter::convert(const string& literal) {
     Type type = detectType(literal);
 
@@ -110,6 +88,13 @@ void ScalarConverter::convert(const string& literal) {
         default:
             cout << "Invalid input" << endl;
     }
+}
+
+void ScalarConverter::convertFromChar(char c) {
+    cout << "char: '"   << c << "'" <<
+    endl << "int: "     << static_cast<int>(c) <<
+    endl << "float: "   << static_cast<float>(c) << ".0f" <<
+    endl << "double: "  << static_cast<double>(c) << ".0" << endl;
 }
 
 void ScalarConverter::convertFromInt(int value) {
@@ -243,3 +228,18 @@ void ScalarConverter::convertFromDouble(double value) {
     else
         cout << value << endl;
 }
+
+bool ScalarConverter::isSpecialFloat(const string& literal) {
+    return (literal == "nanf" || literal == "+inff"
+        || literal == "-inff" || literal == "inff");
+}
+
+bool ScalarConverter::isSpecialDouble(const string& literal) {
+    return (literal == "nan" || literal == "+inf"
+        || literal == "-inf" || literal == "inf");
+}
+
+ScalarConverter::ScalarConverter() {}
+ScalarConverter::ScalarConverter(const ScalarConverter& other) { (void)other; }
+ScalarConverter& ScalarConverter::operator=(const ScalarConverter& other) { (void)other; return *this; }
+ScalarConverter::~ScalarConverter() {}

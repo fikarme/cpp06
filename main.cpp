@@ -24,3 +24,13 @@ int main() {
     cout << "static_cast<double>(x / y) -> " << z << endl;
 
 }
+
+/*
+
+#include <iomanip>
+cout << "float: " << std::setprecision(1) << std::fixed << value << "f" << endl;
+// Forces exactly 1 decimal place: "42.0f"
+
+
+
+*/

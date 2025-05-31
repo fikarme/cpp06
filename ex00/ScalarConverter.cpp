@@ -19,13 +19,25 @@ ScalarConverter::Type ScalarConverter::detectType(const string& literal) {
     char* endptr;
     errno = 0;
     // Check for float (ends with 'f')
-    if (literal.length() > 1 && literal[literal.length() - 1] == 'f') {
+    if (literal.length() > 1 && *literal.rbegin() == 'f') {
         string without_f = literal.substr(0, literal.length() - 1);
         strtod(without_f.c_str(), &endptr);
         if (*endptr == '\0' && errno == 0)
             return FLOAT;
         return INVALID;
     }
+
+// "42.0f"  → FLOAT   (valid float)
+// "42.0ff" → INVALID (strtod fails on "42.0f")
+// "42f"    → INVALID (strtod fails on "42")
+// "f42.0"  → INVALID (doesn't end with 'f')
+// "42.0"   → DOUBLE  (no 'f', has decimal point)
+// "nanf"   → FLOAT   (handled by isSpecialFloat)
+// "f"      → INVALID (length() > 1 fails)
+// "42.5f"  → FLOAT   (valid)
+// "42..f"  → INVALID (strtod fails on "42..")
+// "abc.f"  → INVALID (strtod fails on "abc.")
+// "42.0ff" → INVALID (doesn't end with single 'f')
 
     // Check if it contains a decimal point
     if (literal.find('.') != string::npos) {
@@ -50,12 +62,15 @@ void ScalarConverter::convert(const string& literal) {
 
     switch (type)
     {
+        case INVALID:
+            cout << "Invalid input" << endl;
+            return;
         case CHAR:
             convertFromChar(literal[0]);
-            break;
+            return;
         case INT:
             convertFromInt(static_cast<int>(strtol(literal.c_str(), NULL, 10)));
-            break;
+            return;
         case FLOAT:
             if (isSpecialFloat(literal))
             {
@@ -71,7 +86,7 @@ void ScalarConverter::convert(const string& literal) {
                 string without_f = literal.substr(0, literal.length() - 1);
                 convertFromFloat(static_cast<float>(strtod(without_f.c_str(), NULL)));
             }
-            break;
+            return;
         case DOUBLE:
             if (isSpecialDouble(literal))
             {
@@ -84,9 +99,7 @@ void ScalarConverter::convert(const string& literal) {
             }
             else
                 convertFromDouble(strtod(literal.c_str(), NULL));
-            break;
-        default:
-            cout << "Invalid input" << endl;
+            return;
     }
 }
 

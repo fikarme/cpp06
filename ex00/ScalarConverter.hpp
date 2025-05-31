@@ -37,7 +37,11 @@ private:
     static void convertFromDouble(double value);
     static bool isSpecialFloat(const string& literal);
     static bool isSpecialDouble(const string& literal);
-
+    static void printCharConversion(double value);
+    static void printIntConversion(double value);
+    static void printFloatConversion(double value);
+    static void printDoubleConversion(double value);
+    static bool handleSpecialValues(double value);
 public:
     static void convert(const string& literal);
 };

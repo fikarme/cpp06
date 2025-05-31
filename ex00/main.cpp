@@ -3,19 +3,20 @@
 int main(int ac, char** av) {
     if (ac != 2) {
         cout << "Usage: " << av[0] << " <literal>" << endl;
-        cout << "---42" << endl;
+        cout << endl << "input: 42" << endl;
         ScalarConverter::convert("42");
-        cout << "---nanf" << endl;
+        cout << endl << "input: nanf" << endl;
         ScalarConverter::convert("nanf");
-        cout << "---a" << endl;
+        cout << endl << "input: a" << endl;
         ScalarConverter::convert("a");
-        cout << "---3.14" << endl;
+        cout << endl << "input: 3.14" << endl;
         ScalarConverter::convert("3.14");
-        cout << "---42.0f" << endl;
+        cout << endl << "input: 42.0f" << endl;
         ScalarConverter::convert("42.0f");
-        cout << "---0" << endl;
+        cout << endl << "input: 0" << endl;
         ScalarConverter::convert("0");
-        cout << "---" << endl;
+        cout << endl << "input: -3.1f" << endl;
+        ScalarConverter::convert("-3.1f");
         return 1;
     }
     ScalarConverter::convert(av[1]);

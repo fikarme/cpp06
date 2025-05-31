@@ -3,17 +3,17 @@
 int main(int ac, char** av) {
     if (ac != 2) {
         cout << "Usage: " << av[0] << " <literal>" << endl;
-        cout << "---" << endl;
+        cout << "---42" << endl;
         ScalarConverter::convert("42");
-        cout << "---" << endl;
+        cout << "---nanf" << endl;
         ScalarConverter::convert("nanf");
-        cout << "---" << endl;
+        cout << "---a" << endl;
         ScalarConverter::convert("a");
-        cout << "---" << endl;
+        cout << "---3.14" << endl;
         ScalarConverter::convert("3.14");
-        cout << "---" << endl;
+        cout << "---42.0f" << endl;
         ScalarConverter::convert("42.0f");
-        cout << "---" << endl;
+        cout << "---0" << endl;
         ScalarConverter::convert("0");
         cout << "---" << endl;
         return 1;

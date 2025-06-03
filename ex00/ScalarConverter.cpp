@@ -64,9 +64,12 @@ void ScalarConverter::convert(const string& literal) {
         case CHAR:
             convertFromChar(literal[0]);
             return;
+        //c++ string -> [size][capacity][data_pointer] → ['H']['e']
+        //c_str -> returns pointer to ['H']
+        //detectType'da sadece sayı olduğunu kontrol ettiğimizden NULL
         case INT:
-            convertFrom(static_cast<int>(strtol(literal.c_str(), NULL, 10)));
-            return;
+            convertFrom((strtol(literal.c_str(), NULL, 10)));
+            return;// cstr 
         case FLOAT:
             convertFrom(parseFloat(literal));
             return;
@@ -83,6 +86,8 @@ void ScalarConverter::convertFromChar(char c) {
     endl << "double: "  << static_cast<double>(c) << ".0" << endl;
 }
 
+//float olsaydı int maxı yuvarlayıp gösterirdi çünkü float bitleri şöyle:
+// 0 sign 8 exponent 23 mantissa
 void ScalarConverter::convertFrom(double value) {
     if (handleSpecialValues(value))
         return;
@@ -160,8 +165,8 @@ float ScalarConverter::parseFloat(const string& literal) {
     if (literal == "-inff")
         return -numeric_limits<float>::infinity();
     
-    string without_f = literal.substr(0, literal.length() - 1);
-    return static_cast<float>(strtod(without_f.c_str(), NULL));
+    string withoutF = literal.substr(0, literal.length() - 1);
+    return static_cast<float>(strtod(withoutF.c_str(), NULL));
 }
 
 double ScalarConverter::parseDouble(const string& literal) {

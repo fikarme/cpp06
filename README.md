@@ -1,4 +1,21 @@
-**Excellent question!** Let me trace the **complete data flow** from `av[1]` (command line argument) all the way to the `printCharConversion(double value)` parameter:
+bashde cpp debug c++ normal
+isnan
+isinf
+numeric_limits
+strol
+strtod
+c_str
+quiet_NaN
+infinity
+static_cast
+
+uintptr_t
+reinterpret_cast
+
+dynamic_cast
+static bool
+srand
+
 
 ## **Complete Execution Flow:**
 

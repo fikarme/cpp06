@@ -1,20 +1,30 @@
-NAME    	= convert
+NAME    	= lain
 CPP     	= c++
 CPPFLAGS	= -std=c++98 -Wall -Wextra -Werror
 RM			= rm -rf
-SRCS    	= $(wildcard *.cpp)
+OBJDIR		= Obj
+OBJ			= $(addprefix $(OBJDIR)/, $(SRCS:.cpp=.o))
+OBJS		= $(SRCS:.cpp=.o)
+SRCS    	= main.cpp
 
 all: $(NAME)
 
-$(NAME): $(SRCS)
-	@$(CPP) $(CPPFLAGS) $(SRCS) -o $(NAME)
+$(NAME): $(OBJ)
+    @$(CPP) $(CPPFLAGS) $(OBJ) -o $(NAME)
+
+$(OBJDIR)/%.o: %.cpp
+    @mkdir -p $(OBJDIR)
+    @$(CPP) $(CPPFLAGS) -c $< -o $@
 
 clean:
-	@echo "no o files to clean"
+    @$(RM) $(OBJ)
 
-fclean: 
-	@$(RM) $(NAME)
+fclean: clean
+    @$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+e: fclean all
+    @./$(NAME)
+
+.PHONY: all clean fclean re e

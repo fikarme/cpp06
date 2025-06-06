@@ -1,3 +1,6 @@
+editor.formatOnSave
+
+
 bashde cpp debug c++ normal
 
 isnan

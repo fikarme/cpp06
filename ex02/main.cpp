@@ -10,7 +10,6 @@ int main() {
     cout << "Testing type identification with pointers:" << endl;
     y();
     
-    // Generate random objects and test identification
     for (int i = 0; i < 6; i++) {
         Base* obj = generate();
         cout << "Generated object " << i + 1 << " (pointer): ";
@@ -22,7 +21,6 @@ int main() {
     cout << "Testing type identification with references:" << endl;
     y();
     
-    // Test with references
     for (int i = 0; i < 6; i++) {
         Base* obj = generate();
         cout << "Generated object " << i + 1 << " (reference): ";
@@ -34,7 +32,6 @@ int main() {
     cout << "Testing with specific types:" << endl;
     y();
     
-    // Test specific known types
     A* aObj = new A();
     B* bObj = new B();
     C* cObj = new C();

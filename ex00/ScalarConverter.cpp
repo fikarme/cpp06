@@ -25,18 +25,6 @@ ScalarConverter::Type ScalarConverter::detectType(const string& literal) {
         return INVALID;
     }
 
-// "42.0f"  → FLOAT   (valid float)
-// "42.0ff" → INVALID (strtod fails on "42.0f")
-// "42f"    → INVALID (strtod fails on "42")
-// "f42.0"  → INVALID (doesn't end with 'f')
-// "42.0"   → DOUBLE  (no 'f', has decimal point)
-// "nanf"   → FLOAT   (handled by isSpecialFloat)
-// "f"      → INVALID (length() > 1 fails)
-// "42.5f"  → FLOAT   (valid)
-// "42..f"  → INVALID (strtod fails on "42..")
-// "abc.f"  → INVALID (strtod fails on "abc.")
-// "42.0ff" → INVALID (doesn't end with single 'f')
-
     if (literal.find('.') != string::npos) {
         strtod(literal.c_str(), &endptr);
         if (*endptr == '\0' && errno == 0)
@@ -64,9 +52,6 @@ void ScalarConverter::convert(const string& literal) {
         case CHAR:
             convertFromChar(literal[0]);
             return;
-        //c++ string -> [size][capacity][data_pointer] → ['H']['e']
-        //c_str -> returns pointer to ['H']
-        //detectType'da sadece sayı olduğunu kontrol ettiğimizden NULL
         case INT:
             convertFrom((strtol(literal.c_str(), NULL, 10)));
             return;// cstr 
@@ -86,8 +71,6 @@ void ScalarConverter::convertFromChar(char c) {
     endl << "double: "  << static_cast<double>(c) << ".0" << endl;
 }
 
-//float olsaydı int maxı yuvarlayıp gösterirdi çünkü float bitleri şöyle:
-// 0 sign 8 exponent 23 mantissa
 void ScalarConverter::convertFrom(double value) {
     if (handleSpecialValues(value))
         return;

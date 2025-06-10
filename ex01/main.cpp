@@ -8,7 +8,6 @@ using std::endl;
 inline void y() {cout << "\033[1;33m ---------\033[0m" << endl;}
 
 int main() {
-    // Create a Data object
     Data* original = new Data(42, "Test Data", 3.14);
 
     cout << "Original Data object:" <<
@@ -18,12 +17,10 @@ int main() {
     endl << "Value: " << original->value << endl;
     y();
 
-    // Serialize the pointer
     uintptr_t serialized = Serializer::serialize(original);
     cout << "Serialized value: " << serialized << endl;
     y();
 
-    // Deserialize back to pointer
     Data* deserialized = Serializer::deserialize(serialized);
 
     cout << "Deserialized Data object:" <<

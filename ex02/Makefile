@@ -4,27 +4,27 @@ CPPFLAGS	= -std=c++98 -Wall -Wextra -Werror
 RM			= rm -rf
 OBJDIR		= Obj
 OBJ			= $(addprefix $(OBJDIR)/, $(SRCS:.cpp=.o))
-OBJS		= $(SRCS:.cpp=.o)
-SRCS    	= main.cpp
+SRCS    	= main.cpp \
+                Base.cpp \
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-    @$(CPP) $(CPPFLAGS) $(OBJ) -o $(NAME)
+	@$(CPP) $(CPPFLAGS) $(OBJ) -o $(NAME)
 
 $(OBJDIR)/%.o: %.cpp
-    @mkdir -p $(OBJDIR)
-    @$(CPP) $(CPPFLAGS) -c $< -o $@
-
+	@mkdir -p $(OBJDIR)
+	@$(CPP) $(CPPFLAGS) -c $< -o $@
+    
 clean:
-    @$(RM) $(OBJ)
+	@$(RM) $(OBJDIR)
 
 fclean: clean
-    @$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
 
-e: fclean all
-    @./$(NAME)
+e: $(NAME)
+	@./$(NAME)
 
 .PHONY: all clean fclean re e
